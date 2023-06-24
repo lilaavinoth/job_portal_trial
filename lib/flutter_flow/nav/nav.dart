@@ -78,40 +78,34 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? LoginPageWidget() : LoginPageWidget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
       routes: [
-        // FFRoute(
-        //   name: '_initialize',
-        //   path: '/',
-        //   builder: (context, _) =>
-        //       appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
-        // ),
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? LoginPageWidget() : LoginPageWidget(),
+              appStateNotifier.loggedIn ? HomePageWidget() : LoginPageWidget(),
         ),
         FFRoute(
           name: 'LoginPage',
           path: '/loginPage',
           builder: (context, params) => LoginPageWidget(),
         ),
-        // FFRoute(
-        //   name: 'ForgotPassword',
-        //   path: '/forgotPassword',
-        //   builder: (context, params) => ForgotPasswordWidget(),
-        // ),
-        // FFRoute(
-        //   name: 'HomePage',
-        //   path: '/homePage',
-        //   builder: (context, params) => HomePageWidget(),
-        // ),
-        // FFRoute(
-        //   name: 'SignUpPage',
-        //   path: '/signUpPage',
-        //   builder: (context, params) => SignUpPageWidget(),
-        // ),
+        FFRoute(
+          name: 'ForgotPassword',
+          path: '/forgotPassword',
+          builder: (context, params) => ForgotPasswordWidget(),
+        ),
+        FFRoute(
+          name: 'HomePage',
+          path: '/homePage',
+          builder: (context, params) => HomePageWidget(),
+        ),
+        FFRoute(
+          name: 'SignUpPage',
+          path: '/signUpPage',
+          builder: (context, params) => SignUpPageWidget(),
+        ),
         // FFRoute(
         //   name: 'JobListPage',
         //   path: '/jobListPage',

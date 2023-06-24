@@ -267,7 +267,16 @@ class FirebaseAuthManager extends AuthManager
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.message!}')),
+        SnackBar(
+          content: DefaultTextStyle(
+              style: const TextStyle(
+                  color: Colors.white), // Set the text color of the Snackbar
+              child: Text(
+                'Error: ${e.message!}',
+              )),
+          backgroundColor:
+              Colors.red, // Set the background color of the Snackbar
+        ),
       );
       return null;
     }
