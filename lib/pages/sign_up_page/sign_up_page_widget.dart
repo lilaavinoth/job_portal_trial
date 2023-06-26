@@ -98,11 +98,19 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: 'Name',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
+                        hintStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFBE6324),
+                            color: Color(0xFF4292EC),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -155,11 +163,19 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: 'Email',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
+                        hintStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFBE6324),
+                            color: Color(0xFF4292EC),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -212,11 +228,19 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: 'Enter Password',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
+                        hintStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFBE6324),
+                            color: Color(0xFF4292EC),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -283,11 +307,19 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: 'Confirm Password',
-                        labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
+                        hintStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.black,
+                                ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFBE6324),
+                            color: Color(0xFF4292EC),
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),

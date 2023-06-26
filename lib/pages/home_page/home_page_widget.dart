@@ -593,15 +593,16 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           await queryCompanyDetailsRecordCount(
                                         parent: currentUserReference,
                                       );
-                                      if (_model.count! >= 1) {
-                                        logFirebaseEvent('Button_navigate_to');
+                                      // if (_model.count! >= 1) {
+                                      //   logFirebaseEvent('Button_navigate_to');
 
-                                        context.goNamed('newJob2');
-                                      } else {
-                                        logFirebaseEvent('Button_navigate_to');
+                                      //   context.goNamed('newJob2');
+                                      // } else {
+                                      //   logFirebaseEvent('Button_navigate_to');
 
-                                        context.goNamed('newJob1');
-                                      }
+                                      //   context.goNamed('newJob1');
+                                      // }
+                                      context.goNamed('newJob1');
 
                                       setState(() {});
                                     },

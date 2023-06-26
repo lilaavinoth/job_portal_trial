@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../new_job1/new_job1_widget.dart';
 import '../../pages/login_page/login_page_widget.dart';
 import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
@@ -111,14 +112,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         //   path: '/jobListPage',
         //   builder: (context, params) => JobListPageWidget(),
         // ),
-        // FFRoute(
-        //   name: 'newJob1',
-        //   path: '/newJob1',
-        //   builder: (context, params) => NewJob1Widget(
-        //     isloaded: params.getParam('isloaded', ParamType.DocumentReference,
-        //         false, ['users', 'companyDetails']),
-        //   ),
-        // ),
+        FFRoute(
+          name: 'newJob1',
+          path: '/newJob1',
+          builder: (context, params) => NewJob1Widget(
+            isloaded: params.getParam('isloaded', ParamType.DocumentReference,
+                false, ['users', 'companyDetails']),
+          ),
+        ),
         // FFRoute(
         //   name: 'newJob2',
         //   path: '/newJob2',

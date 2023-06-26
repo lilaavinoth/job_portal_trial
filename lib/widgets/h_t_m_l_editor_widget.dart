@@ -47,7 +47,7 @@ class _NewCustomWidgetState extends State<HTMLEditorWidget> {
             hint: "Type your job description",
             initialText: widget.currentHtml,
           ),
-          htmlToolbarOptions: HtmlToolbarOptions(
+          htmlToolbarOptions: const HtmlToolbarOptions(
             // separatorWidget: const VerticalDivider(indent: 2, endIndent: 2, color: Colors.black),
             // initiallyExpanded: true,
             // renderSeparatorWidget: true,
@@ -56,7 +56,7 @@ class _NewCustomWidgetState extends State<HTMLEditorWidget> {
             buttonFillColor: Colors.green,
             buttonColor: Colors.black,
             toolbarType: ToolbarType.nativeGrid,
-            defaultToolbarButtons: const [
+            defaultToolbarButtons: [
               FontButtons(),
               ListButtons(listStyles: false),
               ParagraphButtons(
@@ -65,7 +65,7 @@ class _NewCustomWidgetState extends State<HTMLEditorWidget> {
                   caseConverter: false),
             ],
           ),
-          otherOptions: OtherOptions(
+          otherOptions: const OtherOptions(
             height: 540,
             // decoration: BoxDecoration(
             //   color: Colors.amber,

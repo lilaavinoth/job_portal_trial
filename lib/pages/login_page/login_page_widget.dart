@@ -125,7 +125,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         FlutterFlowTheme.of(context).bodyMedium,
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0xFF335C93),
+                                        color: Color(0xFF4292EC),
                                         width: 2.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
@@ -194,7 +194,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         FlutterFlowTheme.of(context).bodyMedium,
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0xFF335C93),
+                                        color: Color(0xFF4292EC),
                                         width: 2.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
