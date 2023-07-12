@@ -587,22 +587,30 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     onPressed: () async {
                                       logFirebaseEvent(
                                           'HOME_PAGE_PAGE_ADVERTISE_NOW_BTN_ON_TAP');
-                                      logFirebaseEvent(
-                                          'Button_firestore_query');
-                                      _model.count =
-                                          await queryCompanyDetailsRecordCount(
-                                        parent: currentUserReference,
-                                      );
-                                      // if (_model.count! >= 1) {
-                                      //   logFirebaseEvent('Button_navigate_to');
+                                      // logFirebaseEvent(
+                                      //     'Button_firestore_query');
+                                      // _model.count =
+                                      //     await queryCompanyDetailsRecordCount(
+                                      //   parent: currentUserReference,
+                                      // );
 
-                                      //   context.goNamed('newJob2');
-                                      // } else {
-                                      //   logFirebaseEvent('Button_navigate_to');
+                                      // bool present =
+                                      //     await (isCompanyDetailsPresent());
+                                      // print(present);
 
-                                      //   context.goNamed('newJob1');
-                                      // }
-                                      context.goNamed('newJob1');
+                                      if (await isCompanyDetailsPresent()) {
+                                        logFirebaseEvent('Button_navigate_to');
+
+                                        if (await isPendingJob()) {
+                                          context.goNamed('pendingJob');
+                                        } else {
+                                          context.goNamed('newJob2');
+                                        }
+                                      } else {
+                                        logFirebaseEvent('Button_navigate_to');
+
+                                        context.goNamed('newJob1');
+                                      }
 
                                       setState(() {});
                                     },
@@ -834,5 +842,33 @@ class _HomePageWidgetState extends State<HomePageWidget>
         ),
       ),
     );
+  }
+
+  Future<bool> isCompanyDetailsPresent() async {
+    if (loggedIn) {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserUid)
+          .collection('companyDetails')
+          .get();
+
+      return snapshot.size == 1 ? true : false;
+    } else {
+      return false;
+    }
+  }
+
+  Future isPendingJob() async {
+    if (loggedIn) {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserUid)
+          .collection('incompleteJob')
+          .get();
+
+      return snapshot.size == 1 ? true : false;
+    } else {
+      return false;
+    }
   }
 }

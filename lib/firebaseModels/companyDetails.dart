@@ -4,18 +4,19 @@ import 'dart:convert';
 import 'package:job_portal_trial/backend/backend.dart';
 
 class newCompanyModel {
-  final String companyName;
+  final String? companyName;
   final String? noEmployees;
-  final String name;
-  final String phoneNo;
-  final Timestamp created_date;
+  final String? name;
+  final String? phoneNo;
+  final Timestamp? created_date;
   newCompanyModel({
-    required this.companyName,
-    required this.noEmployees,
-    required this.name,
-    required this.phoneNo,
-    required this.created_date,
+    this.companyName,
+    this.noEmployees,
+    this.name,
+    this.phoneNo,
+    this.created_date,
   });
+  
 
   newCompanyModel copyWith({
     String? companyName,
@@ -43,10 +44,18 @@ class newCompanyModel {
     };
   }
 
-  
+  factory newCompanyModel.fromMap(Map<String, dynamic> map) {
+    return newCompanyModel(
+      companyName: map['companyName'] != null ? map['companyName'] as String : null,
+      noEmployees: map['noEmployees'] != null ? map['noEmployees'] as String : null,
+      name: map['name'] != null ? map['name'] as String : null,
+      phoneNo: map['phoneNo'] != null ? map['phoneNo'] as String : null,
+    );
+  }
 
   String toJson() => json.encode(toMap());
 
+  factory newCompanyModel.fromJson(String source) => newCompanyModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -1,4 +1,4 @@
-import '../firebaseStructures/companyDetails.dart';
+import '../firebaseModels/companyDetails.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -454,7 +454,7 @@ class _NewJob1WidgetState extends State<NewJob1Widget> {
                                       }
                                       logFirebaseEvent('Button_backend_call');
 
-                                      uploadCompanyDetails();
+                                      await uploadCompanyDetails();
 
                                       // await CompanyDetailsRecord.createDoc(
                                       //         currentUserReference!)
