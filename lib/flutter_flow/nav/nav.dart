@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../new_job1/new_job1_widget.dart';
+import '../../new_job2/new_job2_widget.dart';
+import '../../new_job3/new_job3_widget.dart';
+import '../../new_job7/new_job7_widget.dart';
 import '../../pages/login_page/login_page_widget.dart';
+import '../../sponsor_job/sponsor_job_widget.dart';
 import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
 
@@ -120,44 +124,51 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 false, ['users', 'companyDetails']),
           ),
         ),
-        // FFRoute(
-        //   name: 'newJob2',
-        //   path: '/newJob2',
-        //   builder: (context, params) => NewJob2Widget(),
-        // ),
-        // FFRoute(
-        //   name: 'newJob3',
-        //   path: '/newJob3',
-        //   builder: (context, params) => NewJob3Widget(),
-        // ),
-        // FFRoute(
-        //   name: 'newJob4',
-        //   path: '/newJob4',
-        //   builder: (context, params) => NewJob4Widget(),
-        // ),
-        // FFRoute(
-        //   name: 'newJob5',
-        //   path: '/newJob5',
-        //   builder: (context, params) => NewJob5Widget(),
-        // ),
-        // FFRoute(
-        //   name: 'newJob6',
-        //   path: '/newJob6',
-        //   builder: (context, params) => NewJob6Widget(),
-        // ),
-        // FFRoute(
-        //   name: 'newJob7',
-        //   path: '/newJob7',
-        //   builder: (context, params) => NewJob7Widget(
-        //     jobData: params.getParam('jobData', ParamType.DocumentReference,
-        //         false, ['users', 'fullJob']),
-        //     companyData: params.getParam(
-        //         'companyData',
-        //         ParamType.DocumentReference,
-        //         false,
-        //         ['users', 'companyDetails']),
-        //   ),
-        // )
+        FFRoute(
+          name: 'newJob2',
+          path: '/newJob2',
+          builder: (context, params) => const NewJob2Widget(),
+        ),
+        FFRoute(
+          name: 'newJob3',
+          path: '/newJob3',
+          builder: (context, params) => const NewJob3Widget(),
+        ),
+        FFRoute(
+          name: 'newJob4',
+          path: '/newJob4',
+          builder: (context, params) => const NewJob4Widget(),
+        ),
+        FFRoute(
+          name: 'newJob5',
+          path: '/newJob5',
+          builder: (context, params) => const NewJob5Widget(),
+        ),
+        FFRoute(
+          name: 'newJob6',
+          path: '/newJob6',
+          builder: (context, params) => const NewJob6Widget(),
+        ),
+        FFRoute(
+          name: 'newJob7',
+          path: '/newJob7',
+          builder: (context, params) => const NewJob7Widget(),
+        ),
+        FFRoute(
+          name: 'sponsorJob',
+          path: '/sponsorJob',
+          builder: (context, params) => SponsorJobWidget(),
+        ),
+        FFRoute(
+          name: 'pendingJob',
+          path: '/pendingJob',
+          builder: (context, params) => PendingJobWidget(),
+        ),
+        FFRoute(
+          name: 'billingDetails',
+          path: '/billingDetails',
+          builder: (context, params) => BillingDetailsWidget(),
+        )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 
