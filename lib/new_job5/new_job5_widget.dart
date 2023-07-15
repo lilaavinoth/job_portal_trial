@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/firebaseModels/jobDesc.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -324,6 +325,7 @@ class _NewJob5WidgetState extends State<NewJob5Widget> {
                             ),
                           ),
                         ),
+                        const Gap(20),
                       ],
                     ),
                   ),

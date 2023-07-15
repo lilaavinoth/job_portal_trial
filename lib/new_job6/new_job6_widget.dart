@@ -1,6 +1,7 @@
 import 'package:firebase_core_web/firebase_core_web_interop.dart';
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/firebaseModels/applicationPref.dart';
-import 'package:job_portal_trial/firebaseModels/readFullJob.dart';
+import 'package:job_portal_trial/firebaseModels/readPartJob.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -1146,6 +1147,7 @@ class _NewJob6WidgetState extends State<NewJob6Widget> {
                             ),
                           ),
                         ),
+                        const Gap(20),
                       ],
                     ),
                   ),
@@ -1181,26 +1183,4 @@ class _NewJob6WidgetState extends State<NewJob6Widget> {
       await appPref.update(newdata.toMap());
     }
   }
-
-  // Future readPendingJob() async {
-  //   if (loggedIn) {
-
-  //     FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(currentUserUid)
-  //         .collection('incompleteJob')
-  //         .doc('job')
-  //         .get()
-  //         .then((DocumentSnapshot documentSnapshot) {
-  //       if (documentSnapshot.exists) {
-  //         // Document exists, retrieve the data
-  //         readFullJob readobject = readFullJob.fromMap(documentSnapshot.data() as Map<String, dynamic>);
-
-  //       } else {
-  //         debugPrint("dont exist");
-  //         // Document does not exist
-  //       }
-  //     });
-  //   }
-  // }
 }

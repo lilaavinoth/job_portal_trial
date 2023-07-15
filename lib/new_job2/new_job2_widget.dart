@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/firebaseModels/basicInfoModel.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -792,6 +793,7 @@ class _NewJob2WidgetState extends State<NewJob2Widget> {
                             ),
                           ),
                         ),
+                        Gap(20),
                       ],
                     ),
                   ),

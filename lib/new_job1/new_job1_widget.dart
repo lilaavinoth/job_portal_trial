@@ -1,3 +1,5 @@
+import 'package:gap/gap.dart';
+
 import '../firebaseModels/companyDetails.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -497,10 +499,13 @@ class _NewJob1WidgetState extends State<NewJob1Widget> {
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
+                                  
+                          
                                 ),
                               ),
                             ],
                           ),
+                          Gap(20),
                         ],
                       ),
                     ),

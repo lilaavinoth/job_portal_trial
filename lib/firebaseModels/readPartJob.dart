@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import '../backend/backend.dart';
-
-class fullJobModel {
+class readPartJob {
   final String? jobTitle;
   final String? notoHire;
   final bool? ongoingNeed;
@@ -29,18 +27,8 @@ class fullJobModel {
   final String? email3;
   final int? callDirect;
   final String? hireTimeline;
-  final String? sponsorType;
-  final int? applicationLimit;
-  final String? addressLine_1;
-  final String? addressLine_2;
-  final String? townCity;
-  final String? postCode;
-  final double? price;
-  final Timestamp? timestamp;
-  final String? postedBy;
-
-
-  fullJobModel({
+  final int? progress;
+  readPartJob({
     this.jobTitle,
     this.notoHire,
     this.ongoingNeed,
@@ -64,18 +52,11 @@ class fullJobModel {
     this.email3,
     this.callDirect,
     this.hireTimeline,
-    this.sponsorType,
-    this.applicationLimit,
-    this.addressLine_1,
-    this.addressLine_2,
-    this.townCity,
-    this.postCode,
-    this.price,
-    this.timestamp,
-    this.postedBy,
+    this.progress,
   });
+  
 
-  fullJobModel copyWith({
+  readPartJob copyWith({
     String? jobTitle,
     String? notoHire,
     bool? ongoingNeed,
@@ -99,17 +80,9 @@ class fullJobModel {
     String? email3,
     int? callDirect,
     String? hireTimeline,
-    String? sponsorType,
-    int? applicationLimit,
-    String? addressLine_1,
-    String? addressLine_2,
-    String? townCity,
-    String? postCode,
-    double? price,
-    Timestamp? timestamp,
-    String? postedBy,
+    int? progress,
   }) {
-    return fullJobModel(
+    return readPartJob(
       jobTitle: jobTitle ?? this.jobTitle,
       notoHire: notoHire ?? this.notoHire,
       ongoingNeed: ongoingNeed ?? this.ongoingNeed,
@@ -133,15 +106,7 @@ class fullJobModel {
       email3: email3 ?? this.email3,
       callDirect: callDirect ?? this.callDirect,
       hireTimeline: hireTimeline ?? this.hireTimeline,
-      sponsorType: sponsorType ?? this.sponsorType,
-      applicationLimit: applicationLimit ?? this.applicationLimit,
-      addressLine_1: addressLine_1 ?? this.addressLine_1,
-      addressLine_2: addressLine_2 ?? this.addressLine_2,
-      townCity: townCity ?? this.townCity,
-      postCode: postCode ?? this.postCode,
-      price: price ?? this.price,
-      timestamp: timestamp ?? this.timestamp,
-      postedBy: postedBy ?? this.postedBy,
+      progress: progress ?? this.progress,
     );
   }
 
@@ -170,20 +135,12 @@ class fullJobModel {
       'email3': email3,
       'callDirect': callDirect,
       'hireTimeline': hireTimeline,
-      'sponsorType': sponsorType,
-      'applicationLimit': applicationLimit,
-      'addressLine_1': addressLine_1,
-      'addressLine_2': addressLine_2,
-      'townCity': townCity,
-      'postCode': postCode,
-      'price': price,
-      'timestamp': timestamp,
-      'postedBy': postedBy,
+      'progress': progress,
     };
   }
 
-  factory fullJobModel.fromMap(Map<String, dynamic> map) {
-    return fullJobModel(
+  factory readPartJob.fromMap(Map<String, dynamic> map) {
+    return readPartJob(
       jobTitle: map['jobTitle'] != null ? map['jobTitle'] as String : null,
       notoHire: map['notoHire'] != null ? map['notoHire'] as String : null,
       ongoingNeed: map['ongoingNeed'] != null ? map['ongoingNeed'] as bool : null,
@@ -207,28 +164,21 @@ class fullJobModel {
       email3: map['email3'] != null ? map['email3'] as String : null,
       callDirect: map['callDirect'] != null ? map['callDirect'] as int : null,
       hireTimeline: map['hireTimeline'] != null ? map['hireTimeline'] as String : null,
-      sponsorType: map['sponsorType'] != null ? map['sponsorType'] as String : null,
-      applicationLimit: map['applicationLimit'] != null ? map['applicationLimit'] as int : null,
-      addressLine_1: map['addressLine_1'] != null ? map['addressLine_1'] as String : null,
-      addressLine_2: map['addressLine_2'] != null ? map['addressLine_2'] as String : null,
-      townCity: map['townCity'] != null ? map['townCity'] as String : null,
-      postCode: map['postCode'] != null ? map['postCode'] as String : null,
-      postedBy: map['postedBy'] != null ? map['postedBy'] as String : null,
-
+      progress: map['progress'] != null ? map['progress'] as int : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory fullJobModel.fromJson(String source) => fullJobModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory readPartJob.fromJson(String source) => readPartJob.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'fullJobModel(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, sponsorType: $sponsorType, applicationLimit: $applicationLimit, addressLine_1: $addressLine_1, addressLine_2: $addressLine_2, townCity: $townCity, postCode: $postCode, price: $price, timestamp: $timestamp, postedBy: $postedBy)';
+    return 'readFullJob(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, progress: $progress)';
   }
 
   @override
-  bool operator ==(covariant fullJobModel other) {
+  bool operator ==(covariant readPartJob other) {
     if (identical(this, other)) return true;
   
     return 
@@ -255,15 +205,7 @@ class fullJobModel {
       other.email3 == email3 &&
       other.callDirect == callDirect &&
       other.hireTimeline == hireTimeline &&
-      other.sponsorType == sponsorType &&
-      other.applicationLimit == applicationLimit &&
-      other.addressLine_1 == addressLine_1 &&
-      other.addressLine_2 == addressLine_2 &&
-      other.townCity == townCity &&
-      other.postCode == postCode &&
-      other.price == price &&
-      other.timestamp == timestamp &&
-      other.postedBy == postedBy;
+      other.progress == progress;
   }
 
   @override
@@ -291,14 +233,6 @@ class fullJobModel {
       email3.hashCode ^
       callDirect.hashCode ^
       hireTimeline.hashCode ^
-      sponsorType.hashCode ^
-      applicationLimit.hashCode ^
-      addressLine_1.hashCode ^
-      addressLine_2.hashCode ^
-      townCity.hashCode ^
-      postCode.hashCode ^
-      price.hashCode ^
-      timestamp.hashCode ^
-      postedBy.hashCode;
+      progress.hashCode;
   }
 }

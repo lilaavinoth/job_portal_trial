@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/firebaseModels/pending.dart';
 
 import '../auth/base_auth_user_provider.dart';
@@ -249,6 +250,7 @@ class _PendingJobWidgetState extends State<PendingJobWidget> {
                                   ),
                                 ),
                               ),
+                              const Gap(20),
                             ],
                           ),
                         ),
@@ -291,6 +293,9 @@ class _PendingJobWidgetState extends State<PendingJobWidget> {
           break;
         case 6:
           context.goNamed('sponsorJob');
+          break;
+          case 7:
+          context.goNamed('billingDetails');
           break;
         default:
           return const Center(child: CircularProgressIndicator());

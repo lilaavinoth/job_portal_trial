@@ -1,11 +1,12 @@
 import 'dart:html';
 
 import 'package:flutter/scheduler.dart';
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/auth/firebase_auth/auth_util.dart';
 import 'package:job_portal_trial/backend/backend.dart';
 import 'package:job_portal_trial/firebaseModels/companyDetails.dart';
 import 'package:job_portal_trial/firebaseModels/progress.dart';
-import 'package:job_portal_trial/firebaseModels/readFullJob.dart';
+import 'package:job_portal_trial/firebaseModels/readPartJob.dart';
 
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -26,7 +27,7 @@ class NewJob7Widget extends StatefulWidget {
 
 class _NewJob7WidgetState extends State<NewJob7Widget> {
   late NewJob7Model _model;
-  readFullJob readObject = readFullJob();
+  readPartJob readObject = readPartJob();
   newCompanyModel companyModel = newCompanyModel();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -98,7 +99,7 @@ class _NewJob7WidgetState extends State<NewJob7Widget> {
                         return Center(child: CircularProgressIndicator());
                       }
 
-                      readObject = readFullJob.fromMap(
+                      readObject = readPartJob.fromMap(
                           snapshot.data!.data() as Map<String, dynamic>);
 
                       // return Text(readObject.email3.toString(),
@@ -1429,6 +1430,7 @@ class _NewJob7WidgetState extends State<NewJob7Widget> {
                                           ),
                                         ),
                                       ),
+                                      const Gap(20),
                                     ],
                                   ),
                                 ),

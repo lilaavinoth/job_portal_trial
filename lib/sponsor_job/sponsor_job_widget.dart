@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:job_portal_trial/firebaseModels/sponsorDetails.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -157,7 +158,7 @@ class _SponsorJobWidgetState extends State<SponsorJobWidget> {
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: '£1.00',
+                                                  text: '£0.99',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -401,7 +402,7 @@ class _SponsorJobWidgetState extends State<SponsorJobWidget> {
 
                                 await uploadSponsorDetails();
 
-                                context.goNamed('sponsorJob');
+                                context.goNamed('billingDetails');
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -470,6 +471,7 @@ class _SponsorJobWidgetState extends State<SponsorJobWidget> {
                         ),
                       ),
                     ),
+                    const Gap(20),
                   ],
                 ),
               ],
