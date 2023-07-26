@@ -1,3 +1,7 @@
+import 'dart:js_interop';
+
+import 'package:job_portal_trial/global.dart';
+
 import '../../firebaseModels/readFullJob.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -15,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
+import 'package:http/http.dart' as http;
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
@@ -25,9 +30,13 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget>
     with TickerProviderStateMixin {
+  final MySingleton mySingleton = MySingleton();
+
   late HomePageModel _model;
 
   fullJobModel jobObject = fullJobModel();
+  String selectedContainerId = '';
+  fullJobModel rightDisplayObj = fullJobModel();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -93,11 +102,16 @@ class _HomePageWidgetState extends State<HomePageWidget>
           onPressed: () async {
             logFirebaseEvent('HOME_FloatingActionButton_jikjlbs6_ON_TA');
             logFirebaseEvent('FloatingActionButton_auth');
-            GoRouter.of(context).prepareAuthEvent();
-            await authManager.signOut();
-            GoRouter.of(context).clearRedirectLocation();
 
-            context.goNamedAuth('LoginPage', context.mounted);
+            await openPaymentPage();
+
+            // tryCloudFunction();
+
+            // GoRouter.of(context).prepareAuthEvent();
+            // await authManager.signOut();
+            // GoRouter.of(context).clearRedirectLocation();
+
+            // context.goNamedAuth('LoginPage', context.mounted);
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           elevation: 8.0,
@@ -449,7 +463,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Flexible(
+                              Expanded(
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       20.0, 0.0, 10.0, 0.0),
@@ -492,58 +506,86 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                             padding: EdgeInsets.zero,
                                             scrollDirection: Axis.vertical,
                                             itemBuilder: (context, index) {
+                                              final document = jobDocs[index];
+                                              final containerId = document.id;
+                                              final isSelected = containerId ==
+                                                  selectedContainerId;
 
-                                              fullJobModel jobObject = jobs[index];
+                                              fullJobModel jobObject =
+                                                  jobs[index];
 
-                                              return Container(
-                                                width: 100.0,
-                                                height: 100.0,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                ),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Text(
-                                                      jobObject.jobTitle ??
-                                                          "jobTitle",
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            color: Colors.black,
-                                                          ),
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedContainerId =
+                                                          containerId;
+
+                                                      rightDisplayObj =
+                                                          jobObject;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    width: 100.0,
+                                                    height: 100.0,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.0),
+                                                        border: isSelected
+                                                            ? Border.all(
+                                                                color:
+                                                                    Colors.blue,
+                                                                width: 2.0)
+                                                            : null),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Text(
+                                                          jobObject.jobTitle ??
+                                                              "jobTitle",
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          "jobObject.companyName",
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          jobObject.townCity ??
+                                                              "townCity",
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      "jobObject.companyName",
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            color: Colors.black,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      jobObject.townCity ??
-                                                          "townCity",
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            color: Colors.black,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -556,16 +598,29 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 thickness: 2.0,
                                 color: Color(0xFF1867D2),
                               ),
-                              Flexible(
+                              Expanded(
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       10.0, 0.0, 20.0, 0.0),
                                   child: Container(
-                                    height: 100.0,
+                                    // height: 100.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
+                                    child: Column(
+                                        // mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            rightDisplayObj.jobTitle ?? "",
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Readex Pro',
+                                                  color: Colors.black,
+                                                ),
+                                          ),
+                                        ]),
                                   ),
                                 ),
                               ),
@@ -609,6 +664,59 @@ class _HomePageWidgetState extends State<HomePageWidget>
       return snapshot.size == 1 ? true : false;
     } else {
       return false;
+    }
+  }
+
+  Future<void> tryCloudFunction() async {
+    if (loggedIn) {
+      const url =
+          'https://us-central1-jobx-global.cloudfunctions.net/helloWorld'; // Replace with the URL of your deployed Cloud Function
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        // final jsonResponse = json.decode(response.body);
+        print('Response from Cloud Function: ${response.body}');
+      } else {
+        print('Error calling Cloud Function: ${response.statusCode}');
+      }
+    }
+  }
+
+  Future<void> openPaymentPage() async {
+    if (loggedIn) {
+      final price = await FirebaseFirestore.instance
+          .collection('products')
+          .doc('prod_OKoHyTgO7bqRmK')
+          .collection('prices')
+          .where('active', isEqualTo: true)
+          .limit(1)
+          .get();
+
+      final docRef = await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(currentUserUid)
+          .collection('checkout_sessions')
+          .add({
+        "client": "web",
+        "model": "subscription",
+        // "price": price.docs[0].id,
+        "line_items": [
+        {
+          "price": price.docs[0].id, // metered billing price
+        },
+      ],
+        "success_url": 'https://jobx.global/'
+      });
+      setState(() {
+        print("this is the final line " + docRef.id);
+        mySingleton.checkoutSessionID = docRef.id;
+      });
+
+      context.goNamed('postJob');
     }
   }
 }
