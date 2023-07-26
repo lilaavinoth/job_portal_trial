@@ -168,6 +168,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'billingDetails',
           path: '/billingDetails',
           builder: (context, params) => BillingDetailsWidget(),
+        ),
+        FFRoute(
+          name: 'postJob',
+          path: '/postJob',
+          builder: (context, params) => PostJobWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

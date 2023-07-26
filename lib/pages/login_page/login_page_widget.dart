@@ -53,7 +53,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
           backgroundColor: Color(0xFF1A73E8),
           automaticallyImplyLeading: false,
           title: Text(
-            'Name Jobs',
+            'JobX',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
                   color: Colors.white,
