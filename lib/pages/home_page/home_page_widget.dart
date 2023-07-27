@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:js_interop';
 
 import 'package:job_portal_trial/global.dart';
@@ -103,7 +104,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
             logFirebaseEvent('HOME_FloatingActionButton_jikjlbs6_ON_TA');
             logFirebaseEvent('FloatingActionButton_auth');
 
-            await openPaymentPage();
+            newTrial();
+
+            // reportUsageToStripe("si_OKp5Khz6SKb0Kq", 1);
+
+            // await openPaymentPage();
 
             // tryCloudFunction();
 
@@ -705,10 +710,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
         "model": "subscription",
         // "price": price.docs[0].id,
         "line_items": [
-        {
-          "price": price.docs[0].id, // metered billing price
-        },
-      ],
+          {
+            "price": price.docs[0].id, // metered billing price
+          },
+        ],
         "success_url": 'https://jobx.global/'
       });
       setState(() {
@@ -717,6 +722,63 @@ class _HomePageWidgetState extends State<HomePageWidget>
       });
 
       context.goNamed('postJob');
+    }
+  }
+
+  Future<void> reportUsageToStripe(
+      String subscriptionItemId, int quantity) async {
+    final url =
+        'https://us-central1-jobx-global.cloudfunctions.net/reportStripeUsage/reportUsage?subscriptionItemId=$subscriptionItemId&quantity=$quantity';
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print('Response from Cloud Function: ${response.body}');
+    } else {
+      print('Error calling Cloud Function: ${response.statusCode}');
+    }
+
+    // final url = Uri.parse(
+    //   'https://us-central1-jobx-global.cloudfunctions.net/reportStripeUsage/reportUsage?subscriptionItemId=$subscriptionItemId&quantity=$quantity',
+    // );
+
+    // try {
+    //   final response = await http.get(url);
+    //   if (response.statusCode == 200) {
+    //     print('Usage reported to Stripe successfully.');
+    //   } else {
+    //     print(
+    //         'Failed to report usage to Stripe. Status code: ${response.statusCode}');
+    //   }
+    // } catch (e) {
+    //   print('Error sending request: $e');
+    // }
+  }
+
+  Future<void> newTrial() async {
+    if (loggedIn) {
+      const url =
+          'https://us-central1-jobx-global.cloudfunctions.net/reportUsage'; // Replace with the URL of your deployed Cloud Function
+
+      try {
+        final response = await http.post(
+          Uri.parse(url),
+          // headers: {'Content-Type': 'application/json'},
+          // headers: "Access-Control-Allow-Origin": *,
+        );
+
+        if (response.statusCode == 200) {
+          // final jsonResponse = json.decode(response.body);
+          print('Response from Cloud Function: ${response.body}');
+        } else {
+          print('Error calling Cloud Function: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error sending request: $e');
+      }
     }
   }
 }
