@@ -4,6 +4,7 @@ import 'package:job_portal_trial/backend/backend.dart';
 
 import '../auth/firebase_auth/auth_util.dart';
 import '../firebaseModels/readFullJob.dart';
+import '../global.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -23,6 +24,8 @@ class BillingDetailsWidget extends StatefulWidget {
 class _BillingDetailsWidgetState extends State<BillingDetailsWidget> {
   late BillingDetailsModel _model;
   fullJobModel jobObject = fullJobModel();
+  final MySingleton mySingleton = MySingleton();
+
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -815,6 +818,40 @@ class _BillingDetailsWidgetState extends State<BillingDetailsWidget> {
     );
   }
 
+  Future<void> openPaymentPage() async {
+    if (loggedIn) {
+      final price = await FirebaseFirestore.instance
+          .collection('products')
+          .doc('prod_OKoHyTgO7bqRmK')
+          .collection('prices')
+          .where('active', isEqualTo: true)
+          .limit(1)
+          .get();
+
+      final docRef = await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(currentUserUid)
+          .collection('checkout_sessions')
+          .add({
+        "expires_at": currentTimestampInSeconds() + 1800,
+        "client": "web",
+        "model": "subscription",
+        "line_items": [
+          {
+            "price": price.docs[0].id, // metered billing price
+          },
+        ],
+        "success_url": 'https://jobx.global/'
+      });
+      setState(() {
+        print("this is the final line " + docRef.id);
+        mySingleton.checkoutSessionID = docRef.id;
+      });
+
+      context.goNamed('postJob');
+    }
+  }
+
   Future fetchFullJob() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -850,13 +887,15 @@ class _BillingDetailsWidgetState extends State<BillingDetailsWidget> {
 
     await batch.commit();
 
-    await uploadToLiveJob();
+    await uploadToPaymentPendingJob();
   }
 
-  Future uploadToLiveJob() async {
+  Future uploadToPaymentPendingJob() async {
     Timestamp timestamp = Timestamp.now();
-    final liveJobPath = FirebaseFirestore.instance
-        .collection('liveJobs')
+    final paymentPendingJobPath = FirebaseFirestore.instance
+        .collection('paymentPendingJobs')
+        .doc(currentUserUid)
+        .collection('pending')
         .doc();
 
     fullJobModel updated = jobObject.copyWith(
@@ -869,9 +908,14 @@ class _BillingDetailsWidgetState extends State<BillingDetailsWidget> {
           timestamp: timestamp);
 
 
-    await liveJobPath.set(updated.toMap());
+    await paymentPendingJobPath.set(updated.toMap());
 
-    context.goNamed('homepage');
+    // context.goNamed('homepage');
+    openPaymentPage();
 
+  }
+
+  int currentTimestampInSeconds() {
+    return DateTime.now().millisecondsSinceEpoch ~/ 1000;
   }
 }
