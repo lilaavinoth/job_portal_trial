@@ -64,70 +64,6 @@ exports.registerPayment = functions.https.onRequest(async (req, res) => {
   }
 });
 
-
-// exports.docListener = functions.https.onRequest((req, res) => {
-//   const collectionPath = req.body.collectionPath;
-
-//   // response.send('collectionPath:' + collectionPath);
-
-//   // Check if the collection path is provided in the request body
-//   if (!collectionPath) {
-//     return res.status(400).json({ error: 'Collection path not provided.' });
-//   }
-
-//   // Set up a Firestore listener for the specified collection
-//   const collectionRef = admin.firestore().collection(collectionPath);
-//   const unsubscribe = collectionRef.onSnapshot(snapshot => {
-
-//     // const timeout = 600000 // 10 minutes
-//     const timeout = 10000 // 10 minutes
-
-
-//     // Set the timeout
-//     timeoutId = setTimeout(() => {
-//       // If the timeout is reached, unsubscribe from the snapshot listener
-//       unsubscribe();
-
-//       // Send a timeout response to the client
-//       console.log('Listener timeout reached.');
-//     }, timeout);
-
-//     snapshot.docChanges().forEach(change => {
-//       if (change.type === 'added') {
-//         // This is a newly added document
-//         const newData = change.doc.data();
-//         // console.log('Newly added document data:', newData);
-
-//         const itemsArray = newData.items;
-//         // console.log('Array value:', itemsArray);
-
-//         // Check if the array has elements
-//         if (itemsArray.length > 0) {
-//           // Access the first element (map) in the array
-//           const firstItem = itemsArray[0];
-
-//           // Access the value associated with the key "id"
-//           const idValue = firstItem.id;
-
-//           // Now you can use the idValue as needed
-//           console.log('Value of "subItemId" key:', idValue);
-
-//           unsubscribe();
-
-//         }
-
-//       }
-//     });
-
-//     // Clear the timeout if the listener is successfully unsubscribed before the timeout
-//     unsubscribe.then(() => clearTimeout(timeoutId));
-
-//   });
-//   // Send a success response to the client
-//   return res.status(200).json({ message: 'Listening to collection changes.' });
-// });
-
-
 exports.handleStripeWebhook = functions.https.onRequest(async (req, res) => {
   const sigHeader = req.headers['stripe-signature'];
 
@@ -180,50 +116,85 @@ exports.handleStripeWebhook = functions.https.onRequest(async (req, res) => {
 
 async function addNewFieldToDocument(UId, subscriptionItemId) {
   try {
-    // const collectionPath = 'paymentPendingJobs/' + UId + '/pending/';
 
-    // Query the collection to check if it has documents
-    // const snapshot = await admin.firestore().collection('paymentPendingJobs').doc(UId).collection('pending').limit(1).get();
-    const snapshot = await admin.firestore().collection('paymentPendingJobs').doc(UId).collection('pending').get();
+    console.log('Reached function:', UId + subscriptionItemId);
 
+    // Step 1: Get the reference to the source document
+    const sourceDocumentRef = admin.firestore()
+      .collection('paymentPendingJobs')
+      .doc(UId)
+      .collection('pending');
 
-    if (snapshot.empty) {
-      // The collection is empty
-      console.log('Collection is empty.');
-      // res.status(200).send('Collection is empty.');
-    } else {
+    const deleteDocumentRef = admin.firestore()
+      .collection('paymentPendingJobs')
+      .doc(UId);
+
+    // Step 2: Create a new document at the destination path and get its reference
+    const destinationDocumentRef = admin.firestore().collection('liveJobs').doc();
+
+    // Step 3: Read the data from the source document
+    const sourceSnapshot = await sourceDocumentRef.limit(1).get();
+
+    if (!sourceSnapshot.empty) {
+
+      // Step 4: Update the data with additional fields
+      const data = sourceSnapshot.docs[0].data();
+      data.subItemId = subscriptionItemId; // Add new fields as needed
+
+      // Step 5: Set the updated data to the destination document
+      await destinationDocumentRef.set(data);
 
       try {
+        // Step 6: Delete the source document (optional)
+        const subcollections = await deleteDocumentRef.listCollections();
+        for (const subcollectionRef of subcollections) {
+          await deleteCollection(subcollectionRef);
+        }
 
-        // Initialize an array to store the documents' data
-        const documentsData = [];
-
-        // Get the data of the existing document
-        const data = snapshot.data();
-
-        // Add the new field to the document data
-        data.subItemId = subscriptionItemId;
-
-        // Write the updated document to the destination collection
-        await admin.firestore().collection('liveJobs').doc().set(data);
-
-        // Optionally, delete the original document from the source collection
-        // Comment out the following line if you don't want to delete the original document
-        await admin.firestore().collection('paymentPendingJobs').doc(UId).delete();
-
-        // res.status(200).send('Document moved successfully.');
+        // Delete the parent document
+        await deleteDocumentRef.delete();
       } catch (error) {
-        console.error('Error moving document:', error);
-        // res.status(500).send('Error moving document.');
+        console.error('Error deleting documents:', error);
       }
 
 
-      // The collection has documents
-      console.log('Collection is not empty.');
-      // res.status(200).send('Collection is not empty.');
+      console.log('Document moved and fields added successfully.');
+
+    } else {
+      console.error('Source document does not exist.');
     }
+
   } catch (error) {
-    console.error('Error adding a new field to the document:', error);
-    return null;
+    console.error('Error moving document and adding fields:', error);
+    // throw new functions.https.HttpsError('internal', 'Error moving document and adding fields.');
   }
 }
+
+
+async function deleteCollection(collectionRef) {
+  const snapshot = await collectionRef.get();
+
+  if (snapshot.size === 0) {
+    return;
+  }
+
+  const batch = admin.firestore().batch();
+  snapshot.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+}
+
+
+// exports.helloWorld = functions.https.onRequest(async (req, res) => {
+//   cors(request, response, async () => {
+//     await admin.firestore().collection("orders").doc().set({
+//       checkoutSessionId: "dataObject.id",
+//       paymentStatus: "dataObject.payment_status",
+//       shippingInfo: "dataObject.shipping",
+//       amountTotal: "dataObject.amount_total",
+//     });
+
+//   });
+// })
