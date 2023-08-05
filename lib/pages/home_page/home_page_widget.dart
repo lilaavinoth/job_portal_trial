@@ -10,6 +10,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:job_portal_trial/firebaseModels/email.dart';
 import 'package:provider/provider.dart';
 
 import 'package:job_portal_trial/global.dart';
@@ -115,15 +116,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
             // reportUsageToStripe("si_OKp5Khz6SKb0Kq", 1);
 
-            openPaymentPage();
+            // openPaymentPage();
 
             // tryCloudFunction();
 
-            // GoRouter.of(context).prepareAuthEvent();
-            // await authManager.signOut();
-            // GoRouter.of(context).clearRedirectLocation();
+            GoRouter.of(context).prepareAuthEvent();
+            await authManager.signOut();
+            GoRouter.of(context).clearRedirectLocation();
 
-            // context.goNamedAuth('LoginPage', context.mounted);
+            context.goNamedAuth('LoginPage', context.mounted);
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           elevation: 8.0,
@@ -632,6 +633,55 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   color: Colors.black,
                                                 ),
                                           ),
+                                          Text(
+                                            rightDisplayObj.subItemId ?? "",
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Readex Pro',
+                                                  color: Colors.black,
+                                                ),
+                                          ),
+                                          Flexible(
+                                            child: FFButtonWidget(
+                                              onPressed: () async {
+                                                
+                                                triggerEmail(rightDisplayObj);
+
+                                                reportUsage(
+                                                    rightDisplayObj.subItemId ??
+                                                        "",
+                                                    1);
+                                              },
+                                              text: 'Apply',
+                                              options: FFButtonOptions(
+                                                height: 40.0,
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        24.0, 0.0, 24.0, 0.0),
+                                                iconPadding:
+                                                    EdgeInsetsDirectional
+                                                        .fromSTEB(
+                                                            0.0, 0.0, 0.0, 0.0),
+                                                color: Color(0xFF1867D2),
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          color: Colors.white,
+                                                        ),
+                                                elevation: 3.0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                              ),
+                                            ),
+                                          ),
                                         ]),
                                   ),
                                 ),
@@ -823,5 +873,22 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   int currentTimestampInSeconds() {
     return DateTime.now().millisecondsSinceEpoch ~/ 1000;
+  }
+
+  Future triggerEmail(fullJobModel rightDisplayObj) async {
+    if (loggedIn) {
+      final emailPath = FirebaseFirestore.instance.collection('mail').doc();
+
+      final messageContent = MessageContent(
+          subject: '$currentUserDisplayName has applied for your ${rightDisplayObj.jobTitle}',
+          text: 'You got a new candidate to review',
+          html: 'This is the <code>HTML</code> section of the email');
+
+      List<String> emailList = [rightDisplayObj.email1 ?? "", rightDisplayObj.email2 ?? "", rightDisplayObj.email3 ?? ""];
+
+      final newEmail = emailModel(to: emailList, message: messageContent.toMap());
+
+      await emailPath.set(newEmail.toMap());
+    }
   }
 }

@@ -140,6 +140,8 @@ async function addNewFieldToDocument(UId, subscriptionItemId) {
       // Step 4: Update the data with additional fields
       const data = sourceSnapshot.docs[0].data();
       data.subItemId = subscriptionItemId; // Add new fields as needed
+      data.status = 'live'; 
+
 
       // Step 5: Set the updated data to the destination document
       await destinationDocumentRef.set(data);

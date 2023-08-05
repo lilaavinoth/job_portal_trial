@@ -38,6 +38,9 @@ class fullJobModel {
   final double? price;
   final Timestamp? timestamp;
   final String? postedBy;
+  final String? status;
+  final String? subItemId;
+
 
 
   fullJobModel({
@@ -73,6 +76,8 @@ class fullJobModel {
     this.price,
     this.timestamp,
     this.postedBy,
+    this.status,
+    this.subItemId,
   });
 
   fullJobModel copyWith({
@@ -108,6 +113,8 @@ class fullJobModel {
     double? price,
     Timestamp? timestamp,
     String? postedBy,
+    String? status,
+    String? subItemId,
   }) {
     return fullJobModel(
       jobTitle: jobTitle ?? this.jobTitle,
@@ -142,6 +149,8 @@ class fullJobModel {
       price: price ?? this.price,
       timestamp: timestamp ?? this.timestamp,
       postedBy: postedBy ?? this.postedBy,
+      status: status ?? this.status,
+      subItemId: subItemId ?? this.subItemId,
     );
   }
 
@@ -179,6 +188,8 @@ class fullJobModel {
       'price': price,
       'timestamp': timestamp,
       'postedBy': postedBy,
+      'status': status,
+      'subItemId': subItemId,
     };
   }
 
@@ -214,7 +225,8 @@ class fullJobModel {
       townCity: map['townCity'] != null ? map['townCity'] as String : null,
       postCode: map['postCode'] != null ? map['postCode'] as String : null,
       postedBy: map['postedBy'] != null ? map['postedBy'] as String : null,
-
+      status: map['status'] != null ? map['status'] as String : null,
+      subItemId: map['subItemId'] != null ? map['subItemId'] as String : null,
     );
   }
 
@@ -224,7 +236,7 @@ class fullJobModel {
 
   @override
   String toString() {
-    return 'fullJobModel(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, sponsorType: $sponsorType, applicationLimit: $applicationLimit, addressLine_1: $addressLine_1, addressLine_2: $addressLine_2, townCity: $townCity, postCode: $postCode, price: $price, timestamp: $timestamp, postedBy: $postedBy)';
+    return 'fullJobModel(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, sponsorType: $sponsorType, applicationLimit: $applicationLimit, addressLine_1: $addressLine_1, addressLine_2: $addressLine_2, townCity: $townCity, postCode: $postCode, price: $price, timestamp: $timestamp, postedBy: $postedBy, status: $status, subItemId: $subItemId)';
   }
 
   @override
@@ -263,7 +275,9 @@ class fullJobModel {
       other.postCode == postCode &&
       other.price == price &&
       other.timestamp == timestamp &&
-      other.postedBy == postedBy;
+      other.postedBy == postedBy &&
+      other.status == status &&
+      other.subItemId == subItemId;
   }
 
   @override
@@ -299,6 +313,8 @@ class fullJobModel {
       postCode.hashCode ^
       price.hashCode ^
       timestamp.hashCode ^
-      postedBy.hashCode;
+      postedBy.hashCode ^
+      status.hashCode ^
+      subItemId.hashCode;
   }
 }
