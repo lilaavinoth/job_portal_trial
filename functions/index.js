@@ -117,7 +117,7 @@ exports.handleStripeWebhook = functions.https.onRequest(async (req, res) => {
 async function addNewFieldToDocument(UId, subscriptionItemId) {
   try {
 
-    console.log('Reached function:', UId + subscriptionItemId);
+    // console.log('Reached function:', UId + subscriptionItemId);
 
     // Step 1: Get the reference to the source document
     const sourceDocumentRef = admin.firestore()

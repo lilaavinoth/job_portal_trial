@@ -42,6 +42,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
   fullJobModel jobObject = fullJobModel();
   String selectedContainerId = '';
   fullJobModel rightDisplayObj = fullJobModel();
+  bool isResumePresent = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -72,6 +73,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
+
+    checkIfResumeExists();
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'HomePage'});
     _model.whatTextfieldController ??=
@@ -485,9 +488,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     child: StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
                                             .collection('liveJobs')
+                                            .where('status', isEqualTo: 'live')
+                                            .where('subItemId',
+                                                isNotEqualTo: '')
                                             .snapshots(),
                                         builder: (context, snapshot) {
-                                          if (!snapshot.hasData) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
                                             return const Center(
                                               child: SizedBox(
                                                 width: 50.0,
@@ -501,6 +508,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   ),
                                                 ),
                                               ),
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            print(snapshot.error);
+                                            return Center(
+                                              child: Text(
+                                                  'Error: ${snapshot.error}'),
+                                            );
+                                          } else if (!snapshot.hasData ||
+                                              snapshot.data!.docs.isEmpty) {
+                                            return Center(
+                                              child: Text('No data available.'),
                                             );
                                           }
 
@@ -645,15 +663,14 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           Flexible(
                                             child: FFButtonWidget(
                                               onPressed: () async {
-                                                
-                                                triggerEmail(rightDisplayObj);
-
-                                                reportUsage(
-                                                    rightDisplayObj.subItemId ??
-                                                        "",
-                                                    1);
+                                                isResumePresent
+                                                    ? applytoJob()
+                                                    : context.goNamed(
+                                                        'uploadResume');
                                               },
-                                              text: 'Apply',
+                                              text: isResumePresent
+                                                  ? 'Apply'
+                                                  : 'Upload resume & apply',
                                               options: FFButtonOptions(
                                                 height: 40.0,
                                                 padding: EdgeInsetsDirectional
@@ -784,11 +801,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   Future<void> registerPayment() async {
     try {
-      // Replace 'YOUR_CLOUD_FUNCTION_URL' with the URL of your deployed Cloud Function
       final url =
           'https://us-central1-jobx-global.cloudfunctions.net/registerPayment';
 
-      // Replace these values with actual payment details
       final Map<String, dynamic> paymentData = {
         'amount': 2000,
         'currency': 'gbp',
@@ -852,7 +867,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
         'customers/JiVwoZ2SpOcAZL6bov64z1Fycsh2/subscriptions/';
 
     const url =
-        'https://us-central1-jobx-global.cloudfunctions.net/docListener'; // Replace with the URL of your deployed Cloud Function
+        'https://us-central1-jobx-global.cloudfunctions.net/docListener';
 
     final Map<String, dynamic> path = {
       'collectionPath': collectionPath,
@@ -880,15 +895,64 @@ class _HomePageWidgetState extends State<HomePageWidget>
       final emailPath = FirebaseFirestore.instance.collection('mail').doc();
 
       final messageContent = MessageContent(
-          subject: '$currentUserDisplayName has applied for your ${rightDisplayObj.jobTitle}',
+          subject:
+              '$currentUserDisplayName has applied for your ${rightDisplayObj.jobTitle}',
           text: 'You got a new candidate to review',
           html: 'This is the <code>HTML</code> section of the email');
 
-      List<String> emailList = [rightDisplayObj.email1 ?? "", rightDisplayObj.email2 ?? "", rightDisplayObj.email3 ?? ""];
+      List<String> emailList = [
+        rightDisplayObj.email1 ?? "",
+        rightDisplayObj.email2 ?? "",
+        rightDisplayObj.email3 ?? ""
+      ];
 
-      final newEmail = emailModel(to: emailList, message: messageContent.toMap());
+      final newEmail =
+          emailModel(to: emailList, message: messageContent.toMap());
 
       await emailPath.set(newEmail.toMap());
     }
+  }
+
+  Future checkIfResumeExists() async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserUid)
+          .collection('userDetails')
+          .doc('resumeData')
+          .get();
+
+      // Check if the document exists
+      if (docSnapshot.exists) {
+        // Get the data from the document
+        final data = docSnapshot.data();
+
+        // Check if the list field exists and is not empty
+        if (data != null &&
+            data.containsKey('resumeList') &&
+            data['resumeList'] is List &&
+            data['resumeList'].isNotEmpty) {
+          setState(() {
+            isResumePresent = true;
+          });
+        } else {
+          setState(() {
+            isResumePresent = false;
+          });
+        }
+      }
+    } catch (e) {
+      // Handle any potential errors here
+      print('Error checking list: $e');
+      setState(() {
+        isResumePresent = false;
+      });
+    }
+  }
+
+  applytoJob() {
+    triggerEmail(rightDisplayObj);
+
+    reportUsage(rightDisplayObj.subItemId ?? "", 1);
   }
 }

@@ -173,6 +173,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'postJob',
           path: '/postJob',
           builder: (context, params) => PostJobWidget(),
+        ),
+        FFRoute(
+          name: 'uploadResume',
+          path: '/uploadResume',
+          builder: (context, params) => UploadResumeWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

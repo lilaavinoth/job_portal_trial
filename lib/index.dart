@@ -16,4 +16,4 @@ export '/sponsor_job/sponsor_job_widget.dart' show SponsorJobWidget;
 export '/pending_job/pending_job_widget.dart' show PendingJobWidget;
 export '/billing_details/billing_details_widget.dart' show BillingDetailsWidget;
 export '/post_job/post_job_widget.dart' show PostJobWidget;
-
+export '/upload_resume/upload_resume_widget.dart' show UploadResumeWidget;
