@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/backend/backend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'firebaseModels/readFullJob.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -49,6 +50,27 @@ class FFAppState extends ChangeNotifier {
   set HTMLpageDescription(String _value) {
     _HTMLpageDescription = _value;
   }
+
+  int _selectedContainerIndex = -1;
+  int get selectedContainerIndex => _selectedContainerIndex;
+  void selectContainer(int index) {
+    _selectedContainerIndex = index;
+    notifyListeners();
+  }
+
+  fullJobModel jobObject = fullJobModel();
+  fullJobModel get jobModelObject => jobObject;
+  void loadRightJobModel(fullJobModel model) {
+    jobObject = model;
+    notifyListeners();
+  }
+
+  // bool _joblistview = true;
+  // bool get jobListView => _joblistview;
+  // void changeJobListView(bool value) {
+  //   _joblistview = value;
+  //   notifyListeners();
+  // }
 }
 
 LatLng? _latLngFromString(String? val) {

@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:job_portal_trial/job_admin/job_admin_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../new_job1/new_job1_widget.dart';
 import '../../new_job2/new_job2_widget.dart';
 import '../../new_job3/new_job3_widget.dart';
 import '../../new_job7/new_job7_widget.dart';
-import '../../pages/login_page/login_page_widget.dart';
+import '../../login_page/login_page_widget.dart';
 import '../../sponsor_job/sponsor_job_widget.dart';
 import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
@@ -178,6 +179,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'uploadResume',
           path: '/uploadResume',
           builder: (context, params) => UploadResumeWidget(),
+        ),
+        FFRoute(
+          name: 'jobAdmin',
+          path: '/jobAdmin',
+          builder: (context, params) => JobAdminWidget(),
+        ),
+        FFRoute(
+          name: 'CVviewer',
+          path: '/CVviewer',
+          builder: (context, params) => CV_viewer_widget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

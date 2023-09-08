@@ -1453,7 +1453,8 @@ class _NewJob7WidgetState extends State<NewJob7Widget> {
           .doc('job');
 
       final newdata = progressModel(
-          progress: 6);
+          progress: 6,
+          companyName: companyModel.companyName ?? "");
 
       await FSPath.update(newdata.toMap());
     }

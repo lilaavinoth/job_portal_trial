@@ -1,9 +1,9 @@
 // Export pages
-export 'pages/login_page/login_page_widget.dart' show LoginPageWidget;
-export '/pages/forgot_password/forgot_password_widget.dart'
+export '/login_page/login_page_widget.dart' show LoginPageWidget;
+export '/forgot_password/forgot_password_widget.dart'
     show ForgotPasswordWidget;
-export '/pages/home_page/home_page_widget.dart' show HomePageWidget;
-export '/pages/sign_up_page/sign_up_page_widget.dart' show SignUpPageWidget;
+export '/home_page/home_page_widget.dart' show HomePageWidget;
+export '/sign_up_page/sign_up_page_widget.dart' show SignUpPageWidget;
 // export '/job_list_page/job_list_page_widget.dart' show JobListPageWidget;
 export '/new_job1/new_job1_widget.dart' show NewJob1Widget;
 export '/new_job2/new_job2_widget.dart' show NewJob2Widget;
@@ -17,3 +17,7 @@ export '/pending_job/pending_job_widget.dart' show PendingJobWidget;
 export '/billing_details/billing_details_widget.dart' show BillingDetailsWidget;
 export '/post_job/post_job_widget.dart' show PostJobWidget;
 export '/upload_resume/upload_resume_widget.dart' show UploadResumeWidget;
+export '/job_admin/job_admin_widget.dart' show JobAdminWidget;
+export '/CV_viewer/CV_viewer_widget.dart' show CV_viewer_widget;
+
+

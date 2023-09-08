@@ -40,6 +40,9 @@ class fullJobModel {
   final String? postedBy;
   final String? status;
   final String? subItemId;
+  final List<String>? appliedList;
+  final Map<String, dynamic>? viewCount;
+  final String? companyName;
 
 
 
@@ -78,6 +81,10 @@ class fullJobModel {
     this.postedBy,
     this.status,
     this.subItemId,
+    this.appliedList,
+    this.viewCount,
+    this.companyName,
+
   });
 
   fullJobModel copyWith({
@@ -115,6 +122,10 @@ class fullJobModel {
     String? postedBy,
     String? status,
     String? subItemId,
+    List<String>? appliedList,
+    Map<String, dynamic>? viewCount,
+    String? companyName,
+
   }) {
     return fullJobModel(
       jobTitle: jobTitle ?? this.jobTitle,
@@ -151,6 +162,10 @@ class fullJobModel {
       postedBy: postedBy ?? this.postedBy,
       status: status ?? this.status,
       subItemId: subItemId ?? this.subItemId,
+      appliedList: appliedList ?? this.appliedList,
+      viewCount: viewCount ?? this.viewCount,
+      companyName: companyName ?? this.companyName,
+
     );
   }
 
@@ -190,6 +205,10 @@ class fullJobModel {
       'postedBy': postedBy,
       'status': status,
       'subItemId': subItemId,
+      'appliedList': appliedList,
+      'viewCount': viewCount,
+      'companyName': companyName,
+
     };
   }
 
@@ -224,9 +243,15 @@ class fullJobModel {
       addressLine_2: map['addressLine_2'] != null ? map['addressLine_2'] as String : null,
       townCity: map['townCity'] != null ? map['townCity'] as String : null,
       postCode: map['postCode'] != null ? map['postCode'] as String : null,
+      price: map['price'] != null ? map['price'] as double : null,
+      timestamp: map['timestamp'] != null ? map['timestamp'] as Timestamp : null,
       postedBy: map['postedBy'] != null ? map['postedBy'] as String : null,
       status: map['status'] != null ? map['status'] as String : null,
       subItemId: map['subItemId'] != null ? map['subItemId'] as String : null,
+      appliedList: map['appliedList'] != null ? List<String>.from((map['appliedList'] as List<dynamic>)) : null,
+      viewCount: map['viewCount'] != null ? Map<String, dynamic>.from((map['viewCount'] as Map<String, dynamic>)) : null,
+      companyName: map['companyName'] != null ? map['companyName'] as String : null,
+
     );
   }
 
@@ -236,7 +261,7 @@ class fullJobModel {
 
   @override
   String toString() {
-    return 'fullJobModel(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, sponsorType: $sponsorType, applicationLimit: $applicationLimit, addressLine_1: $addressLine_1, addressLine_2: $addressLine_2, townCity: $townCity, postCode: $postCode, price: $price, timestamp: $timestamp, postedBy: $postedBy, status: $status, subItemId: $subItemId)';
+    return 'fullJobModel(jobTitle: $jobTitle, notoHire: $notoHire, ongoingNeed: $ongoingNeed, jobLocation: $jobLocation, streetAddress: $streetAddress, jobType: $jobType, jobSchedule: $jobSchedule, payType: $payType, min: $min, max: $max, minMaxRate: $minMaxRate, amount: $amount, amountRate: $amountRate, supplementalPay: $supplementalPay, benefits: $benefits, jobDesc: $jobDesc, submitResume: $submitResume, criminalRecord: $criminalRecord, email1: $email1, email2: $email2, email3: $email3, callDirect: $callDirect, hireTimeline: $hireTimeline, sponsorType: $sponsorType, applicationLimit: $applicationLimit, addressLine_1: $addressLine_1, addressLine_2: $addressLine_2, townCity: $townCity, postCode: $postCode, price: $price, timestamp: $timestamp, postedBy: $postedBy, status: $status, subItemId: $subItemId, appliedList: $appliedList, viewCount: $viewCount, companyName: $companyName)';
   }
 
   @override
@@ -277,7 +302,10 @@ class fullJobModel {
       other.timestamp == timestamp &&
       other.postedBy == postedBy &&
       other.status == status &&
-      other.subItemId == subItemId;
+      other.subItemId == subItemId &&
+      listEquals(other.appliedList, appliedList) &&
+      other.viewCount == viewCount &&
+      other.companyName == companyName;
   }
 
   @override
@@ -315,6 +343,9 @@ class fullJobModel {
       timestamp.hashCode ^
       postedBy.hashCode ^
       status.hashCode ^
-      subItemId.hashCode;
+      subItemId.hashCode ^
+      appliedList.hashCode ^
+      viewCount.hashCode ^
+      companyName.hashCode;
   }
 }

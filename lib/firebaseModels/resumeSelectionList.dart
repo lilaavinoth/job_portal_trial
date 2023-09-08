@@ -3,17 +3,16 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-class resumeModel {
-  final List<String> resumeList;
-  resumeModel({
-    required this.resumeList,
+class resumeSelectionList {
+  final List<String>? resumeList;
+  resumeSelectionList({
+    this.resumeList,
   });
-  
 
-  resumeModel copyWith({
+  resumeSelectionList copyWith({
     List<String>? resumeList,
   }) {
-    return resumeModel(
+    return resumeSelectionList(
       resumeList: resumeList ?? this.resumeList,
     );
   }
@@ -24,21 +23,21 @@ class resumeModel {
     };
   }
 
-  factory resumeModel.fromMap(Map<String, dynamic> map) {
-    return resumeModel(
+  factory resumeSelectionList.fromMap(Map<String, dynamic> map) {
+    return resumeSelectionList(
       resumeList: List<String>.from((map['resumeList'] as List<dynamic>),
     ));
   }
 
   String toJson() => json.encode(toMap());
 
-  factory resumeModel.fromJson(String source) => resumeModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory resumeSelectionList.fromJson(String source) => resumeSelectionList.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'resumeModel(resumeList: $resumeList)';
+  String toString() => 'resumeSelectionList(resumeList: $resumeList)';
 
   @override
-  bool operator ==(covariant resumeModel other) {
+  bool operator ==(covariant resumeSelectionList other) {
     if (identical(this, other)) return true;
   
     return 

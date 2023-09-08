@@ -1,3 +1,4 @@
+import 'package:job_portal_trial/home_page/home_page_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
+import 'job_admin/job_admin_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,14 +29,25 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
+  final homePageProvider = HomePageProvider(); // Initialize HomePageProvider
+  final CVProvider = ResumeSelectionProvider();
+
+  final jobAdminProvider = JobAdminProvider(); // Initialize JobAdminProvider
+
   if (!kIsWeb) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
-    child: MyApp(),
-  ));
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => appState),
+        ChangeNotifierProvider(create: (context) => homePageProvider),
+        ChangeNotifierProvider(create: (context) => CVProvider),
+        ChangeNotifierProvider(create: (context) => jobAdminProvider)
+
+      
+        ],
+      child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {

@@ -224,7 +224,7 @@ class _UploadResumeWidgetState extends State<UploadResumeWidget> {
       setState(() {
         _fileBytes = result.files.single.bytes;
         _fileName = result.files.single.name;
-        print(_fileName);
+        // print(_fileName);
         uploadToFirestore();
       });
     } else {
@@ -252,14 +252,34 @@ class _UploadResumeWidgetState extends State<UploadResumeWidget> {
 
   Future updateResumePath(String randomString) async {
     final resumePath = FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserUid)
-          .collection('userDetails')
-          .doc('resumeData');
+        .collection('users')
+        .doc(currentUserUid)
+        .collection('userDetails')
+        .doc('resumeData');
 
-    final newdata = resumeModel(resumeList: [randomString]);
+    // Check if the document exists
+    final snapshot = await resumePath.get();
 
-    await resumePath.set(newdata.toMap());
+    if (snapshot.exists) {
+      final resumeData = resumeModel.fromMap(snapshot.data()!);
+
+      final existingResumeList = resumeData.resumeList ?? [];
+
+      if (!existingResumeList.contains(randomString)) {
+        final updatedResumeList = [...existingResumeList, randomString];
+
+        final updatedData = resumeModel(resumeList: updatedResumeList);
+        await resumePath.set(updatedData.toMap());
+      }
+    } else {
+      // Document doesn't exist, create a new document
+      final newData = resumeModel(resumeList: [randomString]);
+      await resumePath.set(newData.toMap());
+    }
+
+    // final newdata = resumeModel(resumeList: [randomString]);
+
+    // await resumePath.set(newdata.toMap());
   }
 
   Future uploadToFirestore() async {
@@ -268,7 +288,8 @@ class _UploadResumeWidgetState extends State<UploadResumeWidget> {
     }
 
     try {
-      String randomString = generateRandomString(5); // Generates a random string of length 10
+      String randomString =
+          generateRandomString(5); // Generates a random string of length 10
       // Create a reference to the location in Firebase Storage where you want to upload the file
       final Reference storageRef = FirebaseStorage.instance
           .ref()
@@ -282,9 +303,11 @@ class _UploadResumeWidgetState extends State<UploadResumeWidget> {
 
       // Now you can save the downloadURL to Firestore or use it as needed
       print('Download URL: $downloadURL');
-      updateResumePath(randomString);
+      // updateResumePath(randomString);
+      updateResumePath(downloadURL);
 
       context.goNamed('homePage');
+      // Navigator.pop(context);
 
       // Reset the state after successful upload
       setState(() {
@@ -296,6 +319,4 @@ class _UploadResumeWidgetState extends State<UploadResumeWidget> {
       print('Error uploading file: $e');
     }
   }
-  
-  
 }
